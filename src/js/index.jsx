@@ -44,7 +44,7 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  go1 : () => { dispatch({type: "direction1", prop1: "value1"}) },
+  go1: () => { dispatch({type: "direction1", prop1: "value1"}) },
   updateTime: (param1) => {
     let result1= dispatch({type: "update_time", time: (new Date()).getTime()});
     return result1;
@@ -55,11 +55,17 @@ let App1 = ReactRedux.connect(
   mapStateToProps, mapDispatchToProps
 )(App);
 
-window.onload = function() {
+(function() {
+  let prevAction = window.onload;
+  window.onload = function() {
+    if (prevAction != null) {
+      prevAction();
+    }
 
-  //ReactDOM.render(<Component1 />, document.getElementById('div1'));
-  ReactDOM.render(<Provider store={store}>
-      <App1 />
-    </Provider>,
-    document.getElementById('div1'));
-}
+    //ReactDOM.render(<Component1 />, document.getElementById('div1'));
+    ReactDOM.render(<Provider store={store}>
+        <App1 />
+      </Provider>,
+      document.getElementById('div1'));
+  };
+})();
